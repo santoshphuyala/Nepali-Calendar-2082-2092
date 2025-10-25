@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Nepali Calendar 2082 with Income Expense Tracker">
+    <meta name="theme-color" content="#1976d2">
+    <title>Nepali Calendar 2082 - नेपाली पात्रो</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192x192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-content">
+            <div class="header-left">
+                <button class="menu-btn" id="menuBtn">
+                    <span class="material-icons">menu</span>
+                </button>
+                <h1 class="app-title">नेपाली पात्रो</h1>
+            </div>
+            <div class="header-right">
+                <div class="date-display">
+                    <div class="bs-date" id="bsDate">2082/01/01</div>
+                    <div class="ad-date" id="adDate">2025/04/14</div>
+                </div>
+                <button class="today-btn" id="todayBtn">
+                    <span class="material-icons">today</span>
+                    आज
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Side Navigation -->
+    <nav class="sidenav" id="sidenav">
+        <div class="sidenav-header">
+            <h2>मेनु</h2>
+            <button class="close-btn" id="closeSidenav">
+                <span class="material-icons">close</span>
+            </button>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="#" data-page="calendar" class="active">
+                <span class="material-icons">calendar_month</span> पात्रो
+            </a></li>
+            <li><a href="#" data-page="income">
+                <span class="material-icons">trending_up</span> आम्दानी
+            </a></li>
+            <li><a href="#" data-page="expense">
+                <span class="material-icons">trending_down</span> खर्च
+            </a></li>
+            <li><a href="#" data-page="notes">
+                <span class="material-icons">note</span> नोटहरू
+            </a></li>
+            <li><a href="#" data-page="shopping">
+                <span class="material-icons">shopping_cart</span> किनमेल सूची
+            </a></li>
+            <li><a href="#" data-page="reports">
+                <span class="material-icons">assessment</span> रिपोर्ट
+            </a></li>
+            <li><a href="#" data-page="settings">
+                <span class="material-icons">settings</span> सेटिङ्ग
+            </a></li>
+        </ul>
+        <div class="developer-info">
+            <p><strong>विकासकर्ता:</strong> Santosh Phuyal</p>
+            <p><strong>इमेल:</strong> xyz@gmail.com</p>
+            <p class="version">संस्करण 1.0.0</p>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Calendar Page -->
+        <div class="page active" id="calendarPage">
+            <div class="calendar-controls">
+                <button class="nav-btn" id="prevMonth">
+                    <span class="material-icons">chevron_left</span>
+                </button>
+                <div class="month-year">
+                    <select id="monthSelect" class="month-select"></select>
+                    <select id="yearSelect" class="year-select"></select>
+                </div>
+                <button class="nav-btn" id="nextMonth">
+                    <span class="material-icons">chevron_right</span>
+                </button>
+            </div>
+            
+            <div class="calendar-grid" id="calendarGrid"></div>
+
+            <!-- Monthly Summary Section -->
+            <div class="dashboard-section">
+                <h3 class="section-title">मासिक सारांश</h3>
+                <div class="summary-cards">
+                    <div class="summary-card income-card">
+                        <div class="card-icon">
+                            <span class="material-icons">trending_up</span>
+                        </div>
+                        <div class="card-content">
+                            <h4>आम्दानी</h4>
+                            <p class="amount" id="monthlyIncome">रु. 0</p>
+                            <span class="count" id="incomeCount">0 कारोबार</span>
+                        </div>
+                    </div>
+                    <div class="summary-card expense-card">
+                        <div class="card-icon">
+                            <span class="material-icons">trending_down</span>
+                        </div>
+                        <div class="card-content">
+                            <h4>खर्च</h4>
+                            <p class="amount" id="monthlyExpense">रु. 0</p>
+                            <span class="count" id="expenseCount">0 कारोबार</span>
+                        </div>
+                    </div>
+                    <div class="summary-card balance-card">
+                        <div class="card-icon">
+                            <span class="material-icons">account_balance_wallet</span>
+                        </div>
+                        <div class="card-content">
+                            <h4>बाँकी</h4>
+                            <p class="amount" id="monthlyBalance">रु. 0</p>
+                            <span class="count" id="savingsRate">0% बचत</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Transactions -->
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h3 class="section-title">हालका कारोबारहरू</h3>
+                    <a href="#" class="view-all" data-page="expense">सबै हेर्नुहोस्</a>
+                </div>
+                <div class="recent-transactions" id="recentTransactions">
+                    <p class="empty-state">कुनै कारोबार छैन</p>
+                </div>
+            </div>
+
+            <!-- Recent Notes -->
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h3 class="section-title">हालका नोटहरू</h3>
+                    <a href="#" class="view-all" data-page="notes">सबै हेर्नुहोस्</a>
+                </div>
+                <div class="recent-notes" id="recentNotes">
+                    <p class="empty-state">कुनै नोट छैन</p>
+                </div>
+            </div>
+
+            <!-- Shopping List Summary -->
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h3 class="section-title">किनमेल सूची</h3>
+                    <a href="#" class="view-all" data-page="shopping">सबै हेर्नुहोस्</a>
+                </div>
+                <div class="shopping-summary">
+                    <div class="shopping-stats-mini">
+                        <div class="stat-mini">
+                            <span class="stat-label">बाँकी</span>
+                            <span class="stat-value" id="pendingShoppingCount">0</span>
+                        </div>
+                        <div class="stat-mini">
+                            <span class="stat-label">किनिएको</span>
+                            <span class="stat-value" id="completedShoppingCount">0</span>
+                        </div>
+                        <div class="stat-mini">
+                            <span class="stat-label">कुल</span>
+                            <span class="stat-value" id="totalShoppingCount">0</span>
+                        </div>
+                    </div>
+                    <div class="recent-shopping" id="recentShopping">
+                        <p class="empty-state">किनमेल सूची खाली छ</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Action Buttons -->
+            <div class="quick-actions">
+                <button class="fab" id="fabMain">
+                    <span class="material-icons">add</span>
+                </button>
+                <div class="fab-menu" id="fabMenu">
+                    <button class="fab-option" data-action="income">
+                        <span class="material-icons">trending_up</span>
+                        <span>आम्दानी</span>
+                    </button>
+                    <button class="fab-option" data-action="expense">
+                        <span class="material-icons">trending_down</span>
+                        <span>खर्च</span>
+                    </button>
+                    <button class="fab-option" data-action="note">
+                        <span class="material-icons">note</span>
+                        <span>नोट</span>
+                    </button>
+                    <button class="fab-option" data-action="shopping">
+                        <span class="material-icons">shopping_cart</span>
+                        <span>किनमेल</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Income Page -->
+        <div class="page" id="incomePage">
+            <div class="page-header">
+                <h2>आम्दानी ट्र्याकर</h2>
+                <button class="btn btn-primary" id="addIncomeBtn">
+                    <span class="material-icons">add</span> नयाँ आम्दानी
+                </button>
+            </div>
+            <div class="summary-cards">
+                <div class="summary-card income-card">
+                    <h3>कुल आम्दानी</h3>
+                    <p class="amount" id="totalIncome">रु. 0</p>
+                </div>
+            </div>
+            <div class="data-list" id="incomeList"></div>
+        </div>
+
+        <!-- Expense Page -->
+        <div class="page" id="expensePage">
+            <div class="page-header">
+                <h2>खर्च ट्र्याकर</h2>
+                <button class="btn btn-primary" id="addExpenseBtn">
+                    <span class="material-icons">add</span> नयाँ खर्च
+                </button>
+            </div>
+            <div class="summary-cards">
+                <div class="summary-card expense-card">
+                    <h3>कुल खर्च</h3>
+                    <p class="amount" id="totalExpense">रु. 0</p>
+                </div>
+            </div>
+            <div class="data-list" id="expenseList"></div>
+        </div>
+
+        <!-- Notes Page -->
+        <div class="page" id="notesPage">
+            <div class="page-header">
+                <h2>नोटहरू र रिमाइन्डर</h2>
+                <button class="btn btn-primary" id="addNoteBtn">
+                    <span class="material-icons">add</span> नयाँ नोट
+                </button>
+            </div>
+            <div class="notes-grid" id="notesList"></div>
+        </div>
+
+        <!-- Shopping List Page -->
+        <div class="page" id="shoppingPage">
+            <div class="page-header">
+                <h2>किनमेल सूची</h2>
+                <button class="btn btn-primary" id="addShoppingBtn">
+                    <span class="material-icons">add</span> नयाँ वस्तु
+                </button>
+            </div>
+            <div class="shopping-stats">
+                <div class="stat-item">
+                    <span>कुल वस्तु:</span>
+                    <strong id="totalItems">0</strong>
+                </div>
+                <div class="stat-item">
+                    <span>किनिएको:</span>
+                    <strong id="purchasedItems">0</strong>
+                </div>
+                <div class="stat-item">
+                    <span>बाँकी:</span>
+                    <strong id="pendingItems">0</strong>
+                </div>
+            </div>
+            <div class="shopping-list" id="shoppingList"></div>
+        </div>
+
+        <!-- Reports Page - UPDATED -->
+        <div class="page" id="reportsPage">
+            <div class="page-header">
+                <h2>विस्तृत रिपोर्ट</h2>
+                <button class="btn btn-primary" id="exportReportBtn">
+                    <span class="material-icons">download</span> Export
+                </button>
+            </div>
+            
+            <!-- Report Filters -->
+            <div class="report-filters">
+                <div class="filter-group">
+                    <label class="form-label">वर्ष (बि.सं.)</label>
+                    <select id="reportYear" class="form-select">
+                        <option value="2082">2082</option>
+                        <option value="2083">2083</option>
+                        <option value="2084">2084</option>
+                        <option value="2085">2085</option>
+                        <option value="2086">2086</option>
+                        <option value="2087">2087</option>
+                        <option value="2088">2088</option>
+                        <option value="2089">2089</option>
+                        <option value="2090">2090</option>
+                        <option value="2091">2091</option>
+                        <option value="2092">2092</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="form-label">महिना</label>
+                    <select id="reportMonth" class="form-select">
+                        <option value="1">बैशाख</option>
+                        <option value="2">जेठ</option>
+                        <option value="3">असार</option>
+                        <option value="4">साउन</option>
+                        <option value="5">भदौ</option>
+                        <option value="6">असोज</option>
+                        <option value="7">कार्तिक</option>
+                        <option value="8">मंसिर</option>
+                        <option value="9">पुष</option>
+                        <option value="10">माघ</option>
+                        <option value="11">फागुन</option>
+                        <option value="12">चैत्र</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="summary-cards">
+                <div class="summary-card income-card">
+                    <div class="card-icon">
+                        <span class="material-icons">trending_up</span>
+                    </div>
+                    <div class="card-content">
+                        <h4>कुल आम्दानी</h4>
+                        <p class="amount" id="reportIncome">रु. 0</p>
+                    </div>
+                </div>
+                <div class="summary-card expense-card">
+                    <div class="card-icon">
+                        <span class="material-icons">trending_down</span>
+                    </div>
+                    <div class="card-content">
+                        <h4>कुल खर्च</h4>
+                        <p class="amount" id="reportExpense">रु. 0</p>
+                    </div>
+                </div>
+                <div class="summary-card balance-card">
+                    <div class="card-icon">
+                        <span class="material-icons">account_balance_wallet</span>
+                    </div>
+                    <div class="card-content">
+                        <h4>बाँकी</h4>
+                        <p class="amount" id="reportBalance">रु. 0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day-wise Report Table -->
+            <div class="report-section">
+                <h3 class="section-title">दैनिक विवरण</h3>
+                <div class="table-container">
+                    <table class="report-table">
+                        <thead>
+                            <tr>
+                                <th>मिति (बि.सं.)</th>
+                                <th>आम्दानी</th>
+                                <th>खर्च</th>
+                                <th>बाँकी</th>
+                                <th>नोट</th>
+                                <th>गतिविधि</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dayWiseTableBody">
+                            <!-- Generated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Category Breakdown -->
+            <div class="report-section">
+                <h3 class="section-title">श्रेणी अनुसार विवरण</h3>
+                <div class="category-breakdown-grid">
+                    <div class="category-breakdown-card">
+                        <h4>आम्दानी श्रेणी</h4>
+                        <div id="incomeCategoryBreakdown" class="category-list"></div>
+                    </div>
+                    <div class="category-breakdown-card">
+                        <h4>खर्च श्रेणी</h4>
+                        <div id="expenseCategoryBreakdown" class="category-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Page -->
+        <div class="page" id="settingsPage">
+            <div class="page-header">
+                <h2>सेटिङ्ग</h2>
+            </div>
+            
+            <div class="settings-section">
+                <h3>सरकारी बिदाहरू</h3>
+                <button class="btn" id="addHolidayBtn">
+                    <span class="material-icons">add</span> बिदा थप्नुहोस्
+                </button>
+                <button class="btn" id="importHolidayBtn">
+                    <span class="material-icons">upload</span> CSV Import
+                </button>
+                <input type="file" id="csvFileInput" accept=".csv" style="display:none">
+                <div class="holidays-list" id="holidaysList"></div>
+            </div>
+
+            <div class="settings-section">
+                <h3>डाटा व्यवस्थापन</h3>
+                <button class="btn" id="exportAllDataBtn">
+                    <span class="material-icons">download</span> Export All Data
+                </button>
+                <button class="btn btn-danger" id="clearDataBtn">
+                    <span class="material-icons">delete</span> सबै डाटा मेटाउनुहोस्
+                </button>
+            </div>
+
+            <div class="settings-section">
+                <h3>थीम</h3>
+                <div class="theme-selector">
+                    <label>
+                        <input type="radio" name="theme" value="light" checked> Light
+                    </label>
+                    <label>
+                        <input type="radio" name="theme" value="dark"> Dark
+                    </label>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Date Detail Drawer -->
+    <div class="drawer" id="dateDrawer">
+        <div class="drawer-content">
+            <div class="drawer-header">
+                <h3 id="drawerDate">2082/01/01</h3>
+                <button class="close-btn" id="closeDrawer">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            <div class="drawer-tabs">
+                <button class="tab-btn active" data-tab="income">आम्दानी</button>
+                <button class="tab-btn" data-tab="expense">खर्च</button>
+                <button class="tab-btn" data-tab="notes">नोट</button>
+                <button class="tab-btn" data-tab="tasks">कार्य</button>
+            </div>
+            <div class="drawer-body">
+                <div class="tab-content active" id="drawerIncome">
+                    <button class="btn btn-primary btn-block" id="drawerAddIncome">
+                        <span class="material-icons">add</span> आम्दानी थप्नुहोस्
+                    </button>
+                    <div class="drawer-list" id="drawerIncomeList"></div>
+                </div>
+                <div class="tab-content" id="drawerExpense">
+                    <button class="btn btn-primary btn-block" id="drawerAddExpense">
+                        <span class="material-icons">add</span> खर्च थप्नुहोस्
+                    </button>
+                    <div class="drawer-list" id="drawerExpenseList"></div>
+                </div>
+                <div class="tab-content" id="drawerNotes">
+                    <button class="btn btn-primary btn-block" id="drawerAddNote">
+                        <span class="material-icons">add</span> नोट थप्नुहोस्
+                    </button>
+                    <div class="drawer-list" id="drawerNotesList"></div>
+                </div>
+                <div class="tab-content" id="drawerTasks">
+                    <button class="btn btn-primary btn-block" id="drawerAddTask">
+                        <span class="material-icons">add</span> कार्य थप्नुहोस्
+                    </button>
+                    <div class="drawer-list" id="drawerTasksList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Template -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Modal Title</h3>
+                <button class="close-btn" id="closeModal">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="spinner" id="spinner">
+        <div class="spinner-circle"></div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Scripts -->
+    <script src="js/nepali-date.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/calendar.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/app.js"></script>
+    
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(reg => console.log('Service Worker registered', reg))
+                .catch(err => console.log('Service Worker registration failed', err));
+        }
+    </script>
+</body>
+</html>
